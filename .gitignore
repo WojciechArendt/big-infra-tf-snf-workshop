@@ -1,0 +1,28 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Sekrety i klucze - nigdy do repozytorium
+keys/
+*.p8
+*.pem
+scripts/env.ps1
+scripts/env.sh
+
+# Edytory / system
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
