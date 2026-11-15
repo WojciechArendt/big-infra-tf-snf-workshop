@@ -10,7 +10,7 @@ W [main.tf](main.tf) dochodzą trzy zasoby:
 
 | Zasób | Opis |
 |-------|------|
-| `snowflake_account_role.sandbox_developer` | rola `WORKSHOP_SANDBOX_DB_DEVELOPER` |
+| `snowflake_account_role.sandbox_developer` | rola `WORKSHOP_SANDBOX_DEVELOPER` |
 | `snowflake_grant_privileges_to_account_role.sandbox_developer_on_database` | `USAGE` na bazie |
 | `snowflake_grant_privileges_to_account_role.sandbox_developer_on_warehouse` | `USAGE` na warehouse'ie |
 
@@ -29,7 +29,7 @@ terraform apply
 Sprawdź w Snowsight:
 
 ```sql
-SHOW GRANTS TO ROLE WORKSHOP_SANDBOX_DB_DEVELOPER;
+SHOW GRANTS TO ROLE WORKSHOP_SANDBOX_DEVELOPER;
 ```
 
 Powinieneś/powinnaś zobaczyć `USAGE` na bazie `WORKSHOP_SANDBOX_DB` i na warehouse'ie `WORKSHOP_WH`.

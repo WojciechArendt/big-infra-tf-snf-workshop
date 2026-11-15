@@ -18,7 +18,7 @@
 
 1. `apply` kroku 3 przechodzi w całości - w szczególności `snowflake_grant_ownership` roli developera na rolę admina oraz kolejność z `snowflake_grant_account_role` (`depends_on`).
 2. `terraform destroy` kroku 3 przechodzi bez błędów (usunięcie ról, których właścicielem jest inna rola).
-3. W Snowsight po `USE ROLE SALES_DB_ADMIN` da się utworzyć schemat i nadać rolę `SALES_DB_DEVELOPER` użytkownikowi.
+3. W Snowsight po `USE ROLE SALES_ADMIN` da się utworzyć schemat i nadać rolę `SALES_DEVELOPER` użytkownikowi.
 4. Liczby w planach: krok 1 → 2 add, krok 2 → 3 add, krok 3 → 90 add.
 5. Dryf z kroku 1 (`ALTER DATABASE ... SET COMMENT`) faktycznie pokazuje zmianę w `plan`.
 6. Czy w Twoim koncie nie ma ograniczeń sieciowych (network policy) blokujących logowanie service usera.
@@ -52,7 +52,7 @@ Pułapki:
 
 - Pokaż diff `01` ↔ `02` (w VS Code: porównanie plików) - **3 nowe zasoby**.
 - Pokaż odwołanie `snowflake_database.sandbox.name` i wyjaśnij zależność niejawną. Opcjonalnie `terraform graph`.
-- `terraform plan` → 3 to add; `apply`; `SHOW GRANTS TO ROLE WORKSHOP_SANDBOX_DB_DEVELOPER;`.
+- `terraform plan` → 3 to add; `apply`; `SHOW GRANTS TO ROLE WORKSHOP_SANDBOX_DEVELOPER;`.
 - Podkreśl: zwróć uwagę, że warehouse i baza **nie są** ruszane - Terraform dodaje tylko różnicę.
 
 ## Krok 3 (~20 min)
@@ -60,13 +60,13 @@ Pułapki:
 1. Otwórz `modules/database_with_roles` (3 min): `variables.tf` (+ `validation`), `main.tf` (9 zasobów), `outputs.tf`, `versions.tf`.
    - Wyjaśnij: dlaczego admin jest właścicielem roli developera (tylko właściciel roli/`MANAGE GRANTS` może ją nadawać) - to najczęstsze „dlaczego?".
    - Warehouse jest poza modułem → przekazujemy go zmienną.
-2. Pokaż wywołanie `module "databases"` z `for_each` i listę `database_names` (2 min).
+2. Pokaż wywołanie `module "databases"` z `for_each` i listę `name_prefixes` (2 min).
 3. `terraform init` (moduł jest „pobierany" lokalnie) → `terraform plan` → **90 to add**.
-4. `terraform apply` - **w trakcie** omawiaj: adresy `module.databases["SALES_DB"]...`, `for_each` vs `count`, równoległość.
-5. `terraform output databases`, Snowsight: `SHOW DATABASES;`, `SHOW ROLES LIKE '%_ADMIN';`, `SHOW GRANTS TO ROLE SALES_DB_ADMIN;`, `SHOW GRANTS OF ROLE SALES_DB_DEVELOPER;`.
-6. **Moment wow** (3 min): dopisz `"OPERATIONS_DB"` do `database_names` → `plan`: 9 to add, reszta bez zmian → `apply`.
-7. Walidacja: zmień na `"sales"` lub `"SALES"` (bez `_DB`) → `plan` → komunikat z `validation`. Cofnij.
-8. (Opcjonalnie) test uprawnień w Snowsight jako `SALES_DB_ADMIN`: `CREATE SCHEMA SALES_DB.RAW;`.
+4. `terraform apply` - **w trakcie** omawiaj: adresy `module.databases["SALES"]...`, `for_each` vs `count`, równoległość.
+5. `terraform output databases`, Snowsight: `SHOW DATABASES;`, `SHOW ROLES LIKE '%_ADMIN';`, `SHOW GRANTS TO ROLE SALES_ADMIN;`, `SHOW GRANTS OF ROLE SALES_DEVELOPER;`.
+6. **Moment wow** (3 min): dopisz `"OPERATIONS"` do `name_prefixes` → `plan`: 9 to add, reszta bez zmian → `apply`.
+7. Walidacja: zmień na `"sales"` lub `"SALES-1"` → `plan` → komunikat z `validation`. Cofnij.
+8. (Opcjonalnie) test uprawnień w Snowsight jako `SALES_ADMIN`: `CREATE SCHEMA SALES_DB.RAW;`.
 
 ## Zakończenie (~5 min)
 

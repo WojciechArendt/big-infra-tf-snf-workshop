@@ -1,11 +1,11 @@
-variable "database_name" {
-  description = "Nazwa bazy danych, konczaca sie na _DB. Na jej podstawie powstaja tez nazwy rol (<NAZWA>_ADMIN, <NAZWA>_DEVELOPER)."
+variable "name_prefix" {
+  description = "Wspolny prefiks nazw obiektow modulu: baza <PREFIKS>_DB, role <PREFIKS>_ADMIN i <PREFIKS>_DEVELOPER."
   type        = string
 
   # Provider rozroznia wielkosc liter w identyfikatorach, wiec pilnujemy jednej konwencji.
   validation {
-    condition     = can(regex("^[A-Z][A-Z0-9_]*_DB$", var.database_name))
-    error_message = "database_name musi zaczynac sie od wielkiej litery, zawierac tylko A-Z, 0-9 i _ oraz konczyc sie na _DB."
+    condition     = can(regex("^[A-Z][A-Z0-9_]*$", var.name_prefix))
+    error_message = "name_prefix musi zaczynac sie od wielkiej litery i zawierac tylko A-Z, 0-9 i _."
   }
 }
 

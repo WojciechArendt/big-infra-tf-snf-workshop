@@ -13,7 +13,7 @@ resource "snowflake_database" "sandbox" {
 }
 
 resource "snowflake_account_role" "sandbox_developer" {
-  name    = "${local.sandbox_database_name}_DEVELOPER"
+  name    = "${local.sandbox_prefix}_DEVELOPER"
   comment = local.comment
 }
 
@@ -41,9 +41,9 @@ resource "snowflake_grant_privileges_to_account_role" "sandbox_developer_on_ware
 
 module "databases" {
   source   = "./modules/database_with_roles"
-  for_each = toset(var.database_names)
+  for_each = toset(var.name_prefixes)
 
-  database_name  = each.value
+  name_prefix    = each.value
   warehouse_name = snowflake_warehouse.workshop.name
   comment        = local.comment
 }

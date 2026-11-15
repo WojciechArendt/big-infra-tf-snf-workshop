@@ -21,8 +21,8 @@ flowchart LR
   WH[("WORKSHOP_WH<br/>warehouse (poza modułem)")]
   subgraph M["moduł database_with_roles (x10, for_each)"]
     DB[("SALES_DB<br/>baza danych")]
-    ADM["SALES_DB_ADMIN<br/>rola admina"]
-    DEV["SALES_DB_DEVELOPER<br/>rola developera"]
+    ADM["SALES_ADMIN<br/>rola admina"]
+    DEV["SALES_DEVELOPER<br/>rola developera"]
   end
   ADM -- "USAGE, CREATE SCHEMA" --> DB
   DEV -- "USAGE" --> DB

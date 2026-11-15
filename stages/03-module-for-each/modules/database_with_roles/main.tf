@@ -1,10 +1,11 @@
 locals {
-  admin_role_name     = "${var.database_name}_ADMIN"
-  developer_role_name = "${var.database_name}_DEVELOPER"
+  database_name       = "${var.name_prefix}_DB"
+  admin_role_name     = "${var.name_prefix}_ADMIN"
+  developer_role_name = "${var.name_prefix}_DEVELOPER"
 }
 
 resource "snowflake_database" "this" {
-  name    = var.database_name
+  name    = local.database_name
   comment = var.comment
 }
 

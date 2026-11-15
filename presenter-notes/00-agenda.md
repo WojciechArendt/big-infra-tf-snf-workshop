@@ -36,7 +36,7 @@ Założenie: uczestnicy wykonali przygotowanie środowiska z README **przed** sp
 
 ## Co robić, gdy czekamy na `apply`
 
-`apply` kroku 3 (90 zasobów) trwa dłużej niż reszta - **zmierz czas na próbie**. Uruchom `apply` i w trakcie omawiaj: strukturę modułu, adresy zasobów (`module.databases["SALES_DB"]...`), korzyści z for_each. Nie czekaj w ciszy.
+`apply` kroku 3 (90 zasobów) trwa dłużej niż reszta - **zmierz czas na próbie**. Uruchom `apply` i w trakcie omawiaj: strukturę modułu, adresy zasobów (`module.databases["SALES"]...`), korzyści z for_each. Nie czekaj w ciszy.
 
 ## Świadomie pominięte (na pytania z sali)
 

@@ -10,19 +10,19 @@ variable "warehouse_auto_suspend_seconds" {
   default     = 60
 }
 
-variable "database_names" {
-  description = "Nazwy baz danych, dla ktorych modul utworzy komplet zasobow (baza + role + granty)."
+variable "name_prefixes" {
+  description = "Prefiksy nazw. Dla kazdego modul utworzy baze <PREFIKS>_DB oraz role <PREFIKS>_ADMIN i <PREFIKS>_DEVELOPER."
   type        = list(string)
   default = [
-    "SALES_DB",
-    "MARKETING_DB",
-    "FINANCE_DB",
-    "HR_DB",
-    "LOGISTICS_DB",
-    "PRODUCTION_DB",
-    "SUPPORT_DB",
-    "ANALYTICS_DB",
-    "LEGAL_DB",
-    "IT_DB",
+    "SALES",
+    "MARKETING",
+    "FINANCE",
+    "HR",
+    "LOGISTICS",
+    "PRODUCTION",
+    "SUPPORT",
+    "ANALYTICS",
+    "LEGAL",
+    "IT",
   ]
 }

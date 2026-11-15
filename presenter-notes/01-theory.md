@@ -77,13 +77,13 @@ Tylko wspomnij: `data` (odczyt istniejących obiektów), `moved`/`import`.
 
 - `variable` vs `locals` - najczęstsza wątpliwość początkujących: zmienna = parametr funkcji, `locals` = zmienna pomocnicza w funkcji.
 - Odwołania: `var.x`, `local.x`, `resource_type.name.attribute`, `module.name.output`.
-- Interpolacja: `"${var.database_name}_ADMIN"`.
+- Interpolacja: `"${var.name_prefix}_ADMIN"`.
 
 ## 6. Moduły i for_each (krok 3)
 
 - Moduł = katalog z `.tf`, który ma wejścia (`variable`), zasoby i wyjścia (`output`). Główny katalog to też moduł („root module").
 - Po co: **DRY, standaryzacja** (każdy zespół dostaje dokładnie ten sam wzorzec), jedno miejsce poprawki, testowalność.
-- `for_each` na module: jedna instancja na element kolekcji; `each.key`/`each.value`; adresy `module.databases["SALES_DB"]`.
+- `for_each` na module: jedna instancja na element kolekcji; `each.key`/`each.value`; adresy `module.databases["SALES"]`.
 - `for_each` vs `count`: `for_each` identyfikuje instancje **kluczem**, więc usunięcie elementu ze środka listy nie przesuwa pozostałych (przy `count` indeksy się przesuwają i Terraform chce odtwarzać zasoby).
 - Klucze `for_each` muszą być znane w czasie `plan`.
 - `validation` w zmiennej modułu - błędy danych wejściowych łapiemy w `plan`.

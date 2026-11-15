@@ -15,7 +15,7 @@ resource "snowflake_database" "sandbox" {
 # --- Stage 2: rola i uprawnienia ---
 
 resource "snowflake_account_role" "sandbox_developer" {
-  name    = "${local.sandbox_database_name}_DEVELOPER"
+  name    = "${local.sandbox_prefix}_DEVELOPER"
   comment = local.comment
 }
 
