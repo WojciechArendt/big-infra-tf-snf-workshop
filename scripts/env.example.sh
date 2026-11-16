@@ -5,4 +5,5 @@
 export SNOWFLAKE_ORGANIZATION_NAME="<ORGANIZATION_NAME>"
 export SNOWFLAKE_ACCOUNT_NAME="<ACCOUNT_NAME>"
 export SNOWFLAKE_USER="TERRAFORM_SVC"
-export SNOWFLAKE_PRIVATE_KEY="$(cat "$(dirname "${BASH_SOURCE[0]}")/../keys/snowflake_tf.p8")"
+# Uruchamiaj z katalogu glownego repozytorium (sciezka do klucza jest wzgledna).
+export SNOWFLAKE_PRIVATE_KEY="$(cat keys/snowflake_tf.p8)"

@@ -5,4 +5,5 @@
 $env:SNOWFLAKE_ORGANIZATION_NAME = "<ORGANIZATION_NAME>"
 $env:SNOWFLAKE_ACCOUNT_NAME      = "<ACCOUNT_NAME>"
 $env:SNOWFLAKE_USER              = "TERRAFORM_SVC"
-$env:SNOWFLAKE_PRIVATE_KEY       = Get-Content -Raw "$PSScriptRoot\..\keys\snowflake_tf.p8"
+# Uruchamiaj z katalogu glownego repozytorium (sciezka do klucza jest wzgledna).
+$env:SNOWFLAKE_PRIVATE_KEY       = Get-Content -Raw "keys/snowflake_tf.p8"

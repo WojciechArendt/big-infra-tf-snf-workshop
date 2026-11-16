@@ -90,7 +90,9 @@ Sprawdź: `terraform version`.
 
 ### 4. Wygeneruj parę kluczy dla użytkownika Terraforma
 
-Terraform będzie logował się do Snowflake kluczem (key-pair), bez hasła. Z katalogu głównego repozytorium (katalog `keys/` jest w `.gitignore`):
+Terraform będzie logował się do Snowflake kluczem (key-pair), bez hasła. Klucz generujesz lokalnie narzędziem `openssl`.
+
+Otwórz terminal w **katalogu głównym repozytorium** (w VS Code: *Terminal → New Terminal*; na Windows wystarczy PowerShell) i wklej poniższe komendy - możesz wszystkie naraz. Utworzą katalog `keys/` (jest w `.gitignore`) z trzema plikami: kluczem prywatnym (`snowflake_tf.p8`), kluczem publicznym (`snowflake_tf.pub`) i plikiem pośrednim (`snowflake_tf_rsa.pem`).
 
 ```bash
 mkdir keys
@@ -99,9 +101,11 @@ openssl pkcs8 -topk8 -inform PEM -in keys/snowflake_tf_rsa.pem -out keys/snowfla
 openssl rsa -in keys/snowflake_tf.p8 -pubout -out keys/snowflake_tf.pub
 ```
 
+Jeśli terminal nie zna komendy `openssl` (częste w PowerShell na Windows), uruchom te same komendy w **Git Bash** (instaluje się razem z Gitem) albo użyj pełnej ścieżki, np. `& "C:\Program Files\Git\usr\bin\openssl.exe"`.
+
 Klucz prywatny (`.p8`) jest bez hasła - to uproszczenie na potrzeby warsztatów. **Nigdy nie commituj kluczy.** Szczegóły: [Key-pair authentication](https://docs.snowflake.com/en/user-guide/key-pair-auth).
 
-Klucz publiczny w jednej linii, bez nagłówków (będzie potrzebny w kroku 5):
+Następnie wypisz klucz publiczny w jednej linii, bez nagłówków - skopiuj wynik, będzie potrzebny w kroku 5:
 
 ```powershell
 # PowerShell
@@ -127,25 +131,39 @@ Nazwa `TERRAFORM_SVC`: przyrostek `_SVC` to skrót od *service* - konto serwisow
 
 ### 6. Ustaw zmienne środowiskowe
 
-Dane logowania nie trafiają do plików z kodem - provider czyta je ze zmiennych środowiskowych. Skopiuj szablon, uzupełnij i załaduj w terminalu (pliki `scripts/env.ps1` i `scripts/env.sh` są w `.gitignore`).
+Dane logowania nie trafiają do plików z kodem - provider czyta je ze zmiennych środowiskowych. Przygotowałem szablon z listą komend, które je ustawiają. Wykonaj kroki **po kolei** (poniższych bloków nie wklejaj naraz).
+
+**a)** Skopiuj szablon (pliki `scripts/env.ps1` i `scripts/env.sh` są w `.gitignore`), z katalogu głównego repozytorium:
 
 ```powershell
-# PowerShell (z katalogu głównego repo)
+# PowerShell
 Copy-Item scripts/env.example.ps1 scripts/env.ps1
-# uzupełnij wartości w scripts/env.ps1, potem:
-. .\scripts\env.ps1
 ```
 
 ```bash
 # bash / zsh
 cp scripts/env.example.sh scripts/env.sh
-# uzupełnij wartości w scripts/env.sh, potem:
+```
+
+**b)** Otwórz skopiowany plik w edytorze i podmień `<ORGANIZATION_NAME>` oraz `<ACCOUNT_NAME>` na wartości zapisane w kroku 5. Zapisz plik.
+
+**c)** Załaduj zmienne w terminalu, nadal z katalogu głównego repozytorium:
+
+```powershell
+# PowerShell
+. .\scripts\env.ps1
+```
+
+```bash
+# bash / zsh
 source ./scripts/env.sh
 ```
 
-Zmienne obowiązują tylko w bieżącym oknie terminala - w nowym oknie załaduj skrypt ponownie.
+Plik skryptu nie jest konieczny - to tylko lista komend ustawiających zmienne. Możesz zamiast tego wkleić jego (uzupełnioną) zawartość prosto do terminala, też z katalogu głównego repozytorium. Plik jest po prostu wygodny, bo w nowym oknie terminala wystarczy wtedy jedna komenda zamiast wklejania wszystkiego od nowa.
 
-### 7. Sprawdź, że wszystko działa
+Zmienne obowiązują tylko w bieżącym oknie terminala - w nowym oknie ustaw je ponownie (krok c).
+
+### 7. Sprawdź, czy wszystko działa
 
 ```bash
 cd stages/01-first-resources
